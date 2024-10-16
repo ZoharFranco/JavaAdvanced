@@ -1,11 +1,18 @@
 package Maman11.ExAHitStampGame;
 
-import java.util.*;
+import javax.swing.*;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Scanner;
+import java.util.Set;
 
 public class HitStampGame implements Game {
     private final int numDigits;
     private String secretNumber;
 
+    public String getSecretNumber() {
+        return secretNumber;
+    }
 
     public HitStampGame(int numDigits) {
         this.numDigits = numDigits;
@@ -14,7 +21,7 @@ public class HitStampGame implements Game {
     @Override
     public void startGame() {
         secretNumber = generateSecretNumber(this.numDigits);
-        System.out.printf("A secret number has been generated (with %s digits), Try to guess it!\n", this.numDigits);
+        JOptionPane.showMessageDialog(null, String.format("A secret number has been generated (with %s digits), Try to guess it!\n", this.numDigits));
     }
 
     @Override
@@ -23,16 +30,16 @@ public class HitStampGame implements Game {
     }
 
 
-    public boolean playRound(String guess) {
+    public String playRound(String guess, int guessNumber) {
         int exactDigits = this.countExactDigits(guess);
         int rightNumbers = this.countRightNumbers(guess);
-        System.out.println("Right numbers not in exact locations: " + rightNumbers + ", Right numbers in exact locations: " + exactDigits);
+        String message = String.format("You guessed %s.\n Right numbers not in exact locations: %s, Right numbers in exact locations: %s \n",
+                guess, rightNumbers, exactDigits);
         if (guess.equals(secretNumber)) {
-            System.out.printf("You guessed secret number %s.\n", secretNumber);
-            return true;
-        }
+            message += String.format("You guessed the secret number %s. Number of guesses: %d\n", secretNumber, guessNumber);
 
-        return false;
+        }
+        return message;
 
 
     }
@@ -85,18 +92,18 @@ public class HitStampGame implements Game {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Welcome to the HitStamp Game!");
+        JOptionPane.showMessageDialog(null, "Welcome to the HitStamp Game!");
 
         int numDigits = 0;
         boolean validInput = false;
 
+
         while (!validInput) {
-            System.out.print("Enter the number of digits for the secret number: ");
             try {
-                numDigits = scanner.nextInt();
+                numDigits = Integer.parseInt(JOptionPane.showInputDialog("Enter the number of digits for the secret number: "));
                 validInput = true;
             } catch (Exception e) {
-                System.out.println("Invalid input. Please enter a valid integer.");
+                JOptionPane.showMessageDialog(null, "Invalid input. Please enter a valid integer.");
                 scanner.next();
             }
         }
@@ -105,33 +112,39 @@ public class HitStampGame implements Game {
         HitStampGame game = new HitStampGame(numDigits);
         game.startGame();
 
+        StringBuilder gameBoard = new StringBuilder();
         boolean isToExit = false;
-        boolean hasWon;
+
+        int guess = 0;
+
         while (!isToExit) {
 
-            int guess = 0;
+
+            int numberGuesses = 0;
             validInput = false;
 
             while (!validInput) {
-                System.out.println("Enter your guess: ");
+
                 try {
-                    guess = scanner.nextInt();
+                    guess = Integer.parseInt(JOptionPane.showInputDialog(gameBoard + "Enter your guess:"));
                     validInput = true;
                 } catch (Exception e) {
-                    System.out.println("Invalid input. Please enter a valid integer.");
-                    scanner.next();
+                    JOptionPane.showMessageDialog(null, "Invalid input. Please enter a valid integer.");
                 }
             }
 
+            numberGuesses += 1;
+            gameBoard.append(game.playRound(String.valueOf(guess), numberGuesses));
 
-            hasWon = game.playRound(String.valueOf(guess));
-            if (hasWon) {
-                System.out.println("Do you want to play again? (y/n): ");
-                String answer = scanner.next();
-                if (!answer.equals("y")) {
+            if (String.valueOf(guess).equals(game.getSecretNumber())) {
+                JOptionPane.showMessageDialog(null, gameBoard);
+                String RestartAnswer = JOptionPane.showInputDialog("Do you want to play again? (y/n): ");
+                if (!RestartAnswer.equals("y")) {
                     isToExit = true;
                 } else {
                     game.restartGame();
+                    guess = 0;
+                    gameBoard = new StringBuilder();
                 }
             }
         }
