@@ -1,0 +1,2 @@
+java org.example.temperatures.TemperaturesApplication
+pause

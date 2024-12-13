@@ -1,0 +1,20 @@
+What is the capital of France?
+Paris
+London
+Berlin
+Madrid
+What is the best planet for lives in our solar system?
+Earth
+Jupiter
+Saturn
+Mars
+Who wrote "Romeo and Juliet"?
+William Shakespeare
+Charles Dickens
+Mark Twain
+Jane Austen
+Try this ?
+foo
+bar
+bar
+bar

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.geometry.Insets?>
+<VBox alignment="TOP_CENTER" spacing="10" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.maman13b.TriviaGameController" prefHeight="200"
+      prefWidth="300">
+
+    <Label fx:id="questionLabel"/>
+
+    <VBox spacing="5">
+        <RadioButton fx:id="answer1" toggleGroup="$answerGroup">
+            <VBox.margin>
+                <Insets top="5" right="10" bottom="10" left="5"/>
+            </VBox.margin>
+        </RadioButton>
+        <RadioButton fx:id="answer2" toggleGroup="$answerGroup">
+            <VBox.margin>
+                <Insets top="5" right="10" bottom="10" left="5"/>
+            </VBox.margin>
+        </RadioButton>
+        <RadioButton fx:id="answer3" toggleGroup="$answerGroup">
+            <VBox.margin>
+                <Insets top="5" right="10" bottom="10" left="5"/>
+            </VBox.margin>
+        </RadioButton>
+        <RadioButton fx:id="answer4" toggleGroup="$answerGroup">
+            <VBox.margin>
+                <Insets top="5" right="10" bottom="10" left="5"/>
+            </VBox.margin>
+        </RadioButton>
+    </VBox>
+
+    <Button fx:id="nextButton" text="Next" onAction="#handleNextButton"/>
+    <Label fx:id="scoreLabel" text="Score: 0" style="-fx-font-size: 16px;"/>
+</VBox>
